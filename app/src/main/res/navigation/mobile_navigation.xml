@@ -22,4 +22,11 @@
         android:name="fr.cnam.apptrade.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_trade"
+        android:name="fr.cnam.apptrade.ui.trade.TradeFragment"
+        android:label="@string/title_trade"
+        tools:layout="@layout/fragment_trade" />
+
 </navigation>
