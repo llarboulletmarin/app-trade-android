@@ -23,7 +23,7 @@ class TradeViewModel : ViewModel() {
     }
 
     fun fetchCurrencies() {
-        ApiClient.currencyApiService.currencies.enqueue(object : Callback<List<Currency>> {
+        ApiClient.currencyApiService.getCurrencies().enqueue(object : Callback<List<Currency>> {
             override fun onResponse(
                 call: Call<List<Currency>>,
                 response: Response<List<Currency>>
