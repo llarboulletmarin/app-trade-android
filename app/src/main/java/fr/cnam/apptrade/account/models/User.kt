@@ -1,5 +1,6 @@
-package fr.cnam.apptrade.network.models
+package fr.cnam.apptrade.account.models
 
+import fr.cnam.apptrade.network.models.CreditCard
 import java.math.BigDecimal
 import java.util.Date
 

@@ -9,14 +9,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     private const val BASE_URL = "https://www.api.trade-app.green-serv.fr/api/v1/"
 
+    private var basic: String = Credentials.basic("", "")
+
     private val authInterceptor = Interceptor { chain ->
         val request = chain.request().newBuilder()
-            .addHeader("Authorization", Credentials.basic("example@example.com", "12345678"))
+            .addHeader("Authorization", basic)
             .build()
         chain.proceed(request)
     }
 
-    private val okHttpClient = OkHttpClient.Builder()
+    private var okHttpClient = OkHttpClient.Builder()
         .addInterceptor(authInterceptor)
         .build()
 
@@ -27,5 +29,8 @@ object RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-}
 
+    fun setCredentials(basic: String) {
+        this.basic = basic
+    }
+}

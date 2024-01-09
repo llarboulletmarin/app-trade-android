@@ -7,14 +7,33 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import fr.cnam.apptrade.account.services.UserManagerService
 import fr.cnam.apptrade.databinding.ActivityAccountBinding
 
 class AccountActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAccountBinding
 
+    override fun onStart() {
+        super.onStart()
+
+        if (!UserManagerService.getInstance(this).isLoggedIn()) {
+            finish()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!UserManagerService.getInstance(this).isLoggedIn()) {
+            finish()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        UserManagerService.getInstance(this).updateCredentials()
 
         binding = ActivityAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)

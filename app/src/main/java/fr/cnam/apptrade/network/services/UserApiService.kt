@@ -1,6 +1,6 @@
 package fr.cnam.apptrade.network.services
 
-import fr.cnam.apptrade.network.models.User
+import fr.cnam.apptrade.account.models.User
 import retrofit2.Call
 import retrofit2.http.POST
 
