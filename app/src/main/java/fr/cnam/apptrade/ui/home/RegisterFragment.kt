@@ -9,42 +9,41 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import fr.cnam.apptrade.R
-import fr.cnam.apptrade.account.models.LoginState
-import fr.cnam.apptrade.databinding.FragmentLoginBinding
+import fr.cnam.apptrade.account.models.RegisterState
+import fr.cnam.apptrade.databinding.FragmentRegisterBinding
 
-class LoginFragment : Fragment() {
+class RegisterFragment : Fragment() {
 
-    private lateinit var viewModel: LoginViewModel
+    private lateinit var viewModel: RegisterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding: FragmentLoginBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        val binding: FragmentRegisterBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
 
-        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        initLoginButton(binding)
+        initRegisterButton(binding)
 
         return binding.root
     }
 
-    private fun initLoginButton(binding: FragmentLoginBinding) {
+    private fun initRegisterButton(binding: FragmentRegisterBinding) {
         // Permet de détecter le clic sur le bouton de connexion
-        binding.loginButton.setOnClickListener { onLoginClick() }
+        binding.registerButton.setOnClickListener { onRegisterClick() }
 
         // Observe les changements d'état de l'authentification
-        viewModel.loginState.observe(viewLifecycleOwner) { loginState ->
+        viewModel.registerState.observe(viewLifecycleOwner) { loginState ->
             when (loginState) {
-                is LoginState.Success -> {
-                    viewModel.saveCredentials(requireContext())
-                    viewModel.navigateToAccount(requireContext())
+                is RegisterState.Success -> {
+                    viewModel.doLogin(requireContext())
                 }
 
-                is LoginState.Error -> {
+                is RegisterState.Error -> {
                     AlertDialog.Builder(context)
                         .setTitle("Erreur")
                         .setMessage(loginState.message)
@@ -55,7 +54,8 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun onLoginClick() {
-        viewModel.login(requireContext())
+    private fun onRegisterClick() {
+        viewModel.register()
     }
+
 }

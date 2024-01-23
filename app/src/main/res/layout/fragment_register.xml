@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="fr.cnam.apptrade.ui.home.RegisterViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/lastname_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="lastname"
+            android:hint="@string/lastname"
+            android:inputType="textPersonName"
+            android:text="@={viewModel.user.lastName}" />
+
+        <EditText
+            android:id="@+id/firstname_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="firstname"
+            android:hint="@string/firstname"
+            android:inputType="textPersonName"
+            android:text="@={viewModel.user.firstName}" />
+
+        <EditText
+            android:id="@+id/birthdate_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="birthdate"
+            android:datePickerMode="spinner"
+            android:hint="@string/birthdate"
+            android:inputType="date"
+            android:text="@={viewModel.user.birthdate}" />
+
+        <EditText
+            android:id="@+id/sex_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="gender"
+            android:hint="@string/sex"
+            android:text="@={viewModel.user.sex}"
+            android:inputType="textShortMessage" />
+
+        <EditText
+            android:id="@+id/email_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="email"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:text="@={viewModel.user.email}" />
+
+        <EditText
+            android:id="@+id/street_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="street"
+            android:hint="@string/street"
+            android:inputType="textPostalAddress"
+            android:text="@={viewModel.user.street}" />
+
+        <EditText
+            android:id="@+id/city_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="city"
+            android:hint="@string/city"
+            android:inputType="textPostalAddress"
+            android:text="@={viewModel.user.city}" />
+
+        <EditText
+            android:id="@+id/zipCode_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="zip"
+            android:hint="@string/zipCode"
+            android:inputType="textPostalAddress"
+            android:text="@={viewModel.user.zipCode}" />
+
+        <EditText
+            android:id="@+id/country_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="country"
+            android:hint="@string/country"
+            android:inputType="textPostalAddress"
+            android:text="@={viewModel.user.country}" />
+
+        <EditText
+            android:id="@+id/password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:text="@={viewModel.user.password}" />
+
+        <EditText
+            android:id="@+id/password_confirm_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:text="@={viewModel.confirmPassword}" />
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register" />
+
+    </LinearLayout>
+
+</layout>

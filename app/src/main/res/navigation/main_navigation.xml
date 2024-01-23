@@ -15,6 +15,9 @@
             app:destination="@id/navigation_login"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_register"
+            app:destination="@id/navigation_register" />
     </fragment>
 
     <fragment
@@ -22,5 +25,11 @@
         android:name="fr.cnam.apptrade.ui.home.LoginFragment"
         android:label="@string/login"
         tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/navigation_register"
+        android:name="fr.cnam.apptrade.ui.home.RegisterFragment"
+        android:label="@string/register"
+        tools:layout="@layout/fragment_register" />
 
 </navigation>

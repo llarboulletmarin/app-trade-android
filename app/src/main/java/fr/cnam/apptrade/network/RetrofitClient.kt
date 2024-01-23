@@ -12,10 +12,25 @@ object RetrofitClient {
     private var basic: String = Credentials.basic("", "")
 
     private val authInterceptor = Interceptor { chain ->
-        val request = chain.request().newBuilder()
-            .addHeader("Authorization", basic)
-            .build()
-        chain.proceed(request)
+        val request = chain.request()
+
+        if (request.url.toString().contains("register")) {
+            println("[DEBUG] Register request, no auth needed")
+            println("[DEBUG] URL : ${request.url}")
+            println("[DEBUG] HEADERS : ${request.headers}")
+            println("[DEBUG] BODY : ${request.method}")
+
+
+            chain.proceed(request)
+        } else {
+            println("[DEBUG] Auth request")
+            val authRequest = chain.request().newBuilder()
+                .addHeader("Authorization", basic)
+                .build()
+            chain.proceed(authRequest)
+        }
+
+
     }
 
     private var okHttpClient = OkHttpClient.Builder()

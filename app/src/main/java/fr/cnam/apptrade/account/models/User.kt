@@ -2,20 +2,18 @@ package fr.cnam.apptrade.account.models
 
 import fr.cnam.apptrade.network.models.CreditCard
 import java.math.BigDecimal
-import java.util.Date
 
 data class User(
-    val email: String,
-    val lastName: String,
-    val firstName: String,
-    val birthDate: Date,
-    val sex: String,
-    val street: String,
-    val city: String,
-    val zipCode: String,
-    val country: String,
-    val balance: BigDecimal,
-    val creditCards: List<CreditCard>,
-    val registerDate: Date,
-    val lastUpdateDate: Date
+    var email: String,
+    var password: String,
+    var lastName: String,
+    var firstName: String,
+    var birthdate: String,
+    var sex: String,
+    var street: String,
+    var city: String,
+    var zipCode: String,
+    var country: String,
+    var balance: BigDecimal,
+    var creditCards: List<CreditCard>
 )

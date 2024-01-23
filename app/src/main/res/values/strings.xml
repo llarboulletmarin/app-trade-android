@@ -12,9 +12,18 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="logout">Logout</string>
+
+    <string name="lastname">Lastname</string>
+    <string name="firstname">Firstname</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="sex">Gendre</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-
+    <string name="confirm_password">Confirm password</string>
+    <string name="street">Street</string>
+    <string name="city">City</string>
+    <string name="country">Country</string>
+    <string name="zipCode">Zip code</string>
 
     <string name="loading_data">Loading data</string>
     <string name="crypto_icon_description">icon</string>

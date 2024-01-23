@@ -23,6 +23,12 @@ class HomeFragment : Fragment() {
             navController.navigate(R.id.navigation_login)
         }
 
+        val registerButton: Button = view.findViewById(R.id.register_button)
+        registerButton.setOnClickListener {
+            val navController = view.findNavController()
+            navController.navigate(R.id.navigation_register)
+        }
+
         return view
     }
 
