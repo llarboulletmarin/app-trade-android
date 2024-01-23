@@ -15,11 +15,13 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if (UserManagerService.getInstance(this).isLoggedIn()) {
-            //lance AccountActivity
-            Intent(this, AccountActivity::class.java).also {
-                startActivity(it)
-                finish()
+        UserManagerService.getInstance(this).isLoggedIn.observe(this) { isLoggedIn ->
+            if (isLoggedIn) {
+                //lance AccountActivity
+                Intent(this, AccountActivity::class.java).also {
+                    startActivity(it)
+                    finish()
+                }
             }
         }
     }

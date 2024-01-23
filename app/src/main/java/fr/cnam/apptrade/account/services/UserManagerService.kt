@@ -1,6 +1,9 @@
 package fr.cnam.apptrade.account.services
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import fr.cnam.apptrade.account.callback.LogoutCallback
 import fr.cnam.apptrade.network.RetrofitClient
 import okhttp3.Credentials
 
@@ -8,7 +11,9 @@ class UserManagerService private constructor(context: Context) {
 
     private val sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE)
 
-    private var isLoggedIn: Boolean = sharedPreferences.getBoolean("isLoggedIn", false)
+    private val _isLoggedIn =
+        MutableLiveData<Boolean>(sharedPreferences.getBoolean("isLoggedIn", false))
+    val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
     fun login(email: String, password: String) {
         sharedPreferences.edit().apply {
@@ -16,7 +21,7 @@ class UserManagerService private constructor(context: Context) {
             putString("basicToken", Credentials.basic(email, password))
             apply()
         }
-        isLoggedIn = true
+        _isLoggedIn.value = true
     }
 
     fun updateCredentials() {
@@ -30,17 +35,14 @@ class UserManagerService private constructor(context: Context) {
         RetrofitClient.setCredentials(Credentials.basic(email, password))
     }
 
-    fun logout() {
+    fun logout(callback: LogoutCallback) {
         sharedPreferences.edit().apply {
             putBoolean("isLoggedIn", false)
             remove("basicToken")
             apply()
         }
-        isLoggedIn = false
-    }
-
-    fun isLoggedIn(): Boolean {
-        return isLoggedIn
+        _isLoggedIn.value = false
+        callback.onLogout()
     }
 
     companion object {

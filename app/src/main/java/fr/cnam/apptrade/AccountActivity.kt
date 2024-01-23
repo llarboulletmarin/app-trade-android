@@ -17,17 +17,12 @@ class AccountActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if (!UserManagerService.getInstance(this).isLoggedIn()) {
-            finish()
+        UserManagerService.getInstance(this).isLoggedIn.observe(this) {
+            if (!it) {
+                finish()
+            }
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (!UserManagerService.getInstance(this).isLoggedIn()) {
-            finish()
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +38,7 @@ class AccountActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_account)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_trade, R.id.navigation_wallet
+                R.id.navigation_trade, R.id.navigation_wallet, R.id.navigation_account
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

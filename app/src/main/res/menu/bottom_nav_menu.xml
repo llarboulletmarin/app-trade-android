@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_wallet_black_24dp"
         android:title="@string/title_wallet" />
 
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/ic_wallet_black_24dp"
+        android:title="@string/title_account" />
+
 </menu>

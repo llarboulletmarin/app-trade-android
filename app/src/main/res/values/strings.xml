@@ -7,9 +7,11 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_trade">Trade</string>
     <string name="title_wallet">Wallet\n</string>
+    <string name="title_account">Account</string>
 
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="logout">Logout</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
 
