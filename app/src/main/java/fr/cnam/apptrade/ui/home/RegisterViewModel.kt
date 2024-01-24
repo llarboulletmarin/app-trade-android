@@ -41,7 +41,7 @@ class RegisterViewModel : ViewModel() {
         ApiClient.userApiService.login().enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
-                    UserManagerService.getInstance(context).login(user.email, user.password)
+                    UserManagerService.getInstance(context).login(response.body()!!, user.password)
                 }
             }
 

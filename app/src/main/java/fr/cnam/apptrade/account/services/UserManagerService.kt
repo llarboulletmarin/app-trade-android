@@ -3,7 +3,9 @@ package fr.cnam.apptrade.account.services
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import fr.cnam.apptrade.account.callback.LogoutCallback
+import fr.cnam.apptrade.account.models.User
 import fr.cnam.apptrade.network.RetrofitClient
 import okhttp3.Credentials
 
@@ -15,13 +17,23 @@ class UserManagerService private constructor(context: Context) {
         MutableLiveData<Boolean>(sharedPreferences.getBoolean("isLoggedIn", false))
     val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
-    fun login(email: String, password: String) {
+    fun login(user: User, password: String) {
         sharedPreferences.edit().apply {
             putBoolean("isLoggedIn", true)
-            putString("basicToken", Credentials.basic(email, password))
+            putString("basicToken", Credentials.basic(user.email, password))
+            putString("user", Gson().toJson(user))
             apply()
         }
         _isLoggedIn.value = true
+    }
+
+    fun getUser(): User? {
+        val userJson = sharedPreferences.getString("user", null)
+        return if (userJson != null) {
+            Gson().fromJson(userJson, User::class.java)
+        } else {
+            null
+        }
     }
 
     fun updateCredentials() {

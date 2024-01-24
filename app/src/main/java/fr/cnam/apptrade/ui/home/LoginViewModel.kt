@@ -19,6 +19,7 @@ class LoginViewModel : ViewModel() {
 
     var email: String = ""
     var password: String = ""
+    var user: User? = null
 
     // LiveData pour l'état de l'authentification
     private val _loginState = MutableLiveData<LoginState>()
@@ -30,7 +31,8 @@ class LoginViewModel : ViewModel() {
     }
 
     fun saveCredentials(context: Context) {
-        UserManagerService.getInstance(context).login(email, password)
+        println("[DEBUG] user: $user")
+        UserManagerService.getInstance(context).login(user!!, password)
     }
 
     fun navigateToAccount(context: Context) {
@@ -52,6 +54,7 @@ class LoginViewModel : ViewModel() {
                 }
 
                 if (response.isSuccessful) {
+                    user = response.body()
                     _loginState.value = LoginState.Success(response.body())
                 }
             }

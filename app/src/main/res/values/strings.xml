@@ -25,6 +25,11 @@
     <string name="country">Country</string>
     <string name="zipCode">Zip code</string>
 
+    <string name="total_balance">Total balance</string>
+    <string name="money">Money</string>
+    <string name="euro">Euro</string>
+    <string name="wallet">Wallet</string>
+
     <string name="loading_data">Loading data</string>
     <string name="crypto_icon_description">icon</string>
 </resources>
