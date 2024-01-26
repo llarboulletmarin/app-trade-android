@@ -21,7 +21,7 @@ class TradeFragment : Fragment() {
     private lateinit var favoriteRecycler : RecyclerView
     private lateinit var tradeRecycler : RecyclerView
 
-    private lateinit var favoriteAdapter : CurrencyAdapter
+    private lateinit var favoriteAdapter : FavoriteAdapter
     private lateinit var tradeAdapter : CurrencyAdapter
 
     private val updateHandler = Handler(Looper.getMainLooper())
@@ -99,7 +99,7 @@ class TradeFragment : Fragment() {
             androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
             false
         )
-        favoriteAdapter = CurrencyAdapter(emptyList())
+        favoriteAdapter = FavoriteAdapter(emptyList())
         favoriteRecycler.adapter = favoriteAdapter
 
         tradeRecycler = view.findViewById(R.id.trade_recyclerview)
