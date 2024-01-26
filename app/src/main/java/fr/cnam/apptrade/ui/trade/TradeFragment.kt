@@ -65,7 +65,10 @@ class TradeFragment : Fragment() {
     private fun initObservers(tradeViewModel: TradeViewModel) {
 
         tradeViewModel.currencyData.observe(viewLifecycleOwner) { currencies ->
-            tradeAdapter.updateData(currencies)
+            val filteredCurrencies = currencies.filter { currency ->
+                tradeViewModel.favorites.value?.find { it.code == currency.code } == null
+            }
+            tradeAdapter.updateData(filteredCurrencies)
         }
 
         tradeViewModel.user.observe(viewLifecycleOwner) {
