@@ -92,10 +92,10 @@ class WalletFragment : Fragment() {
         val list: List<Currency> = listOf(
             Currency("Euro", "EUR", BigDecimal(1.0))
         )
-        moneyAdapter = CurrencyAdapter(list)
+        moneyAdapter = CurrencyAdapter(list, null)
         moneyRecycler.adapter = moneyAdapter
 
-        walletAdapter = CurrencyAdapter(emptyList())
+        walletAdapter = CurrencyAdapter(emptyList(), null)
         walletRecycler.adapter = walletAdapter
     }
 

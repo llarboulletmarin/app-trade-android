@@ -6,8 +6,10 @@ import fr.cnam.apptrade.network.models.Favorite
 import fr.cnam.apptrade.network.models.Transaction
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface UserApiService {
 
@@ -22,5 +24,11 @@ interface UserApiService {
 
     @GET("user/favorites")
     fun getFavorites(): Call<List<Favorite>>
+
+    @POST("user/favorites/{currencyCode}")
+    fun addFavorite(@Path("currencyCode") currencyCode: String): Call<ApiResponse>
+
+    @DELETE("user/favorites/{currencyCode}")
+    fun removeFavorite(@Path("currencyCode") currencyCode: String): Call<ApiResponse>
 
 }

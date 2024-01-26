@@ -13,8 +13,10 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
 
-class CurrencyAdapter(private var currencyList: List<Currency>) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>() {
-
+class CurrencyAdapter(
+    private var currencyList: List<Currency>,
+    private val onItemClickListener: OnItemClickListener?
+) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>() {
     // ViewHolder pour chaque élément de la liste de devises.
     class CurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTextView: TextView = view.findViewById(R.id.currency_name)
@@ -33,6 +35,9 @@ class CurrencyAdapter(private var currencyList: List<Currency>) : RecyclerView.A
     @SuppressLint("SetTextI18n", "DiscouragedApi")
     override fun onBindViewHolder(holder: CurrencyViewHolder, position: Int) {
         val currency = currencyList[position]
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.onItemClicked(currency)
+        }
         holder.nameTextView.text = currency.name
         holder.codeTextView.text = currency.code.uppercase(Locale.getDefault())
 

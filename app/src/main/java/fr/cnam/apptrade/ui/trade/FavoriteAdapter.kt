@@ -13,7 +13,10 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
 
-class FavoriteAdapter(private var currencyList: List<Currency>) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
+class FavoriteAdapter(
+    private var currencyList: List<Currency>,
+    private val onItemClickListener: OnItemClickListener?
+) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
     // ViewHolder pour chaque élément de la liste de devises.
     class FavoriteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -32,6 +35,9 @@ class FavoriteAdapter(private var currencyList: List<Currency>) : RecyclerView.A
     @SuppressLint("SetTextI18n", "DiscouragedApi")
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         val currency = currencyList[position]
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.onItemClicked(currency)
+        }
         holder.codeTextView.text = currency.code.uppercase(Locale.getDefault())
 
         // Formatage du prix avec séparation de milliers.

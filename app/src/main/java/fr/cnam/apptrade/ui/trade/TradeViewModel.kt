@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import fr.cnam.apptrade.account.models.User
 import fr.cnam.apptrade.account.services.UserManagerService
 import fr.cnam.apptrade.network.ApiClient
+import fr.cnam.apptrade.network.models.ApiResponse
 import fr.cnam.apptrade.network.models.Currency
 import fr.cnam.apptrade.network.models.Favorite
 import retrofit2.Call
@@ -24,8 +25,8 @@ class TradeViewModel : ViewModel() {
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
-    private val _favorites = MutableLiveData<List<Favorite>>()
-    val favorites: LiveData<List<Favorite>> = _favorites
+    private val _favorites = MutableLiveData<List<Favorite>?>()
+    val favorites: MutableLiveData<List<Favorite>?> = _favorites
 
     init {
         _isLoading.postValue(true)
@@ -76,6 +77,34 @@ class TradeViewModel : ViewModel() {
                 _isLoading.postValue(false)
             }
         })
+    }
+
+    fun addFavorite(currency: Currency) {
+        ApiClient.userApiService.addFavorite(currency.code).enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    fetchFavorites()
+                }
+            }
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    fun removeFavorite(currency: Currency) {
+        ApiClient.userApiService.removeFavorite(currency.code).enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    fetchFavorites()
+                }
+            }
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    fun isFavorite(currency: Currency): Boolean {
+        return favorites.value?.find { it.code == currency.code } != null
     }
 
 }

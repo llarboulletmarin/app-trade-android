@@ -1,5 +1,7 @@
 package fr.cnam.apptrade.ui.trade
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -116,7 +118,11 @@ class TradeFragment : Fragment() {
             androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
             false
         )
-        favoriteAdapter = FavoriteAdapter(emptyList())
+        favoriteAdapter = FavoriteAdapter(emptyList(), object : OnItemClickListener {
+            override fun onItemClicked(currency: Currency) {
+                showOptionsDialog(currency, tradeViewModel.isFavorite(currency))
+            }
+        })
         favoriteRecycler.adapter = favoriteAdapter
 
         tradeRecycler = view.findViewById(R.id.trade_recyclerview)
@@ -125,12 +131,39 @@ class TradeFragment : Fragment() {
             androidx.recyclerview.widget.LinearLayoutManager.VERTICAL,
             false
         )
-        tradeAdapter = CurrencyAdapter(emptyList())
+        tradeAdapter = CurrencyAdapter(emptyList(), object : OnItemClickListener {
+            override fun onItemClicked(currency: Currency) {
+                showOptionsDialog(currency, tradeViewModel.isFavorite(currency))
+            }
+        })
         tradeRecycler.adapter = tradeAdapter
-
     }
 
+    private fun showOptionsDialog(currency: Currency, isFavorite: Boolean) {
+        val options = if (isFavorite) {
+            arrayOf("Acheter", "Supprimer des favoris")
+        } else {
+            arrayOf("Acheter", "Ajouter aux favoris")
+        }
 
-
+        AlertDialog.Builder(requireContext(),R.style.AlertDialogCustom)
+            .setTitle("Choisissez une option")
+            .setCancelable(true)
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> {
+                        //TODO: Naviguez vers la page d'achat ici
+                    }
+                    1 -> {
+                        if (isFavorite) {
+                            tradeViewModel.removeFavorite(currency)
+                        } else {
+                            tradeViewModel.addFavorite(currency)
+                        }
+                    }
+                }
+            }
+            .show()
+    }
 
 }
