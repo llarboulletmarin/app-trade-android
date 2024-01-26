@@ -32,4 +32,7 @@
 
     <string name="loading_data">Loading data</string>
     <string name="crypto_icon_description">icon</string>
+    <string name="trade">Trade</string>
+    <string name="favorites">Favorites</string>
+    <string name="all_crypto">All crypto</string>
 </resources>

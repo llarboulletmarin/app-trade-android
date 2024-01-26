@@ -2,6 +2,7 @@ package fr.cnam.apptrade.network.services
 
 import fr.cnam.apptrade.account.models.User
 import fr.cnam.apptrade.network.models.ApiResponse
+import fr.cnam.apptrade.network.models.Favorite
 import fr.cnam.apptrade.network.models.Transaction
 import retrofit2.Call
 import retrofit2.http.Body
@@ -18,4 +19,8 @@ interface UserApiService {
 
     @GET("user/transactions")
     fun getTransactions(): Call<List<Transaction>>
+
+    @GET("user/favorites")
+    fun getFavorites(): Call<List<Favorite>>
+
 }
