@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.cnam.apptrade.R
 import fr.cnam.apptrade.databinding.FragmentTradeBinding
 import fr.cnam.apptrade.network.models.Currency
+
 
 class TradeFragment : Fragment() {
 
@@ -23,6 +25,8 @@ class TradeFragment : Fragment() {
 
     private lateinit var favoriteAdapter : FavoriteAdapter
     private lateinit var tradeAdapter : CurrencyAdapter
+
+    private lateinit var favoritesTextView: TextView
 
     private val updateHandler = Handler(Looper.getMainLooper())
     private val updateInterval: Long = 5000 // 5 seconds
@@ -55,6 +59,8 @@ class TradeFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_trade, container, false)
         binding.trade = tradeViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        favoritesTextView = binding.root.findViewById(R.id.favorites_textview)
 
         initRecyclers(binding.root)
         initObservers(tradeViewModel)
@@ -90,6 +96,14 @@ class TradeFragment : Fragment() {
                     }
                 }
                 favoriteAdapter.updateData(favoriteList)
+            }
+        }
+
+        tradeViewModel.favorites.observe(viewLifecycleOwner) { favorites ->
+            if (favorites.isNullOrEmpty()) {
+                favoritesTextView.visibility = View.GONE
+            } else {
+                favoritesTextView.visibility = View.VISIBLE
             }
         }
 
