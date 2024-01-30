@@ -153,8 +153,9 @@ class TradeFragment : Fragment() {
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> {
-                        // Naviguez vers la page d'achat ici
-                        findNavController().navigate(R.id.action_navigation_trade_to_navigation_transaction)
+                        findNavController().navigate(R.id.action_navigation_trade_to_navigation_transaction, Bundle().apply {
+                            putString("selectedCurrency", currency.code)
+                        })
                     }
                     1 -> {
                         if (isFavorite) {
