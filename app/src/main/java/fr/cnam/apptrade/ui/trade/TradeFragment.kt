@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import fr.cnam.apptrade.R
 import fr.cnam.apptrade.databinding.FragmentTradeBinding
@@ -152,7 +153,8 @@ class TradeFragment : Fragment() {
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> {
-                        //TODO: Naviguez vers la page d'achat ici
+                        // Naviguez vers la page d'achat ici
+                        findNavController().navigate(R.id.action_navigation_trade_to_navigation_transaction)
                     }
                     1 -> {
                         if (isFavorite) {
