@@ -142,9 +142,9 @@ class TradeFragment : Fragment() {
 
     private fun showOptionsDialog(currency: Currency, isFavorite: Boolean) {
         val options = if (isFavorite) {
-            arrayOf("Acheter", "Supprimer des favoris")
+            arrayOf("Voir", "Supprimer des favoris")
         } else {
-            arrayOf("Acheter", "Ajouter aux favoris")
+            arrayOf("Voir", "Ajouter aux favoris")
         }
 
         AlertDialog.Builder(requireContext(),R.style.AlertDialogCustom)

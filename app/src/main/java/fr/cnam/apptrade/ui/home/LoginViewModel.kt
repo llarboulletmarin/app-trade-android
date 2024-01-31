@@ -60,6 +60,7 @@ class LoginViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
+                println("[DEBUG] Error: $t")
                 _loginState.value = LoginState.Error("Erreur de connexion")
             }
         })
