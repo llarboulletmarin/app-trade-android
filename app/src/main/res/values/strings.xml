@@ -36,4 +36,7 @@
     <string name="favorites">Favorites</string>
     <string name="all_crypto">All crypto</string>
     <string name="transaction">Transaction</string>
+    <string name="lib_prix_transaction">Prix de %s</string>
+    <string name="symb_euro">€ %s</string>
+
 </resources>

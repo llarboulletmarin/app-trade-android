@@ -7,17 +7,33 @@
             type="fr.cnam.apptrade.ui.transaction.TransactionViewModel" />
     </data>
 
-    <FrameLayout
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        tools:context=".ui.transaction.TransactionFragment">
 
         <TextView
-            android:id="@+id/currencyTextView"
+            android:id="@+id/currencyNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@{transaction.currencyData[0].code}"/>
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{@string/lib_prix_transaction(transaction.currencyData.name)}"/>
+        <TextView
+            android:id="@+id/currencyPriceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:textColor="#000000"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{@string/symb_euro(transaction.currencyData.price)}"/>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </layout>
