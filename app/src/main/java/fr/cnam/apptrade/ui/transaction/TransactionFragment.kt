@@ -26,12 +26,11 @@ class TransactionFragment : Fragment() {
         val binding: FragmentTransactionBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_transaction, container, false)
 
-        println("[DEBUG] selectedCurrency: $selectedCurrency")
         transactionViewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
 
-
-
         transactionViewModel.fetchCurrency(selectedCurrency!!)
+        transactionViewModel.fetchTransactions(selectedCurrency!!)
+        transactionViewModel.initUser(requireContext())
 
         binding.transaction = transactionViewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -39,10 +38,5 @@ class TransactionFragment : Fragment() {
         return binding.root
 
     }
-
-    // private fun initObservers(transactionViewModel: TransactionViewModel) {
-    //     transactionViewModel.currencyData.observe(viewLifecycleOwner) {
-    //     }
-    // }
 
 }

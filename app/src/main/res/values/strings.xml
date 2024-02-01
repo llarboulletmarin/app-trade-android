@@ -37,6 +37,10 @@
     <string name="all_crypto">All crypto</string>
     <string name="transaction">Transaction</string>
     <string name="lib_prix_transaction">Prix de %s</string>
-    <string name="symb_euro">€ %s</string>
+    <string name="lib_nb_wallet">Balance %s : %s = $ %s</string>
+    <string name="symb_euro">$ %s</string>
+
+    <string name="buy">Acheter</string>
+    <string name="sell">Vendre</string>
 
 </resources>

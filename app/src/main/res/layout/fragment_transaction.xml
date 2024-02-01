@@ -34,6 +34,62 @@
             android:fontFamily="sans-serif-medium"
             android:text="@{@string/symb_euro(transaction.currencyData.price)}"/>
 
+        <TextView
+            android:id="@+id/titleTotalBalanceCurrencyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{@string/lib_nb_wallet(transaction.currencyData.name,transaction.transactions.amount,transaction.calculateProduct())}"/>
+
+        <TextView
+            android:id="@+id/TitleTotalBalanceTransactionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/total_balance"/>
+
+        <TextView
+            android:id="@+id/totalBalanceTransactionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:textColor="#000000"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{@string/symb_euro(transaction.balance)}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buyButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="@string/buy"
+                style="@style/PrimaryButton" />
+
+            <Button
+                android:id="@+id/sellButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="@string/sell"
+                style="@style/PrimaryButton" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </layout>

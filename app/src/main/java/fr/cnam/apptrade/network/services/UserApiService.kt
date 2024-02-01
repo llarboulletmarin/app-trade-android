@@ -22,6 +22,9 @@ interface UserApiService {
     @GET("user/transactions")
     fun getTransactions(): Call<List<Transaction>>
 
+    @GET("user/transactions/{currencyCode}")
+    fun getTransactionsByCurrency(@Path("currencyCode") currencyCode: String): Call<List<Transaction>>
+
     @GET("user/favorites")
     fun getFavorites(): Call<List<Favorite>>
 
