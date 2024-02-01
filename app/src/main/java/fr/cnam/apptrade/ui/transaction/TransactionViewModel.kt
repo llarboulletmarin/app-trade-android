@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import fr.cnam.apptrade.account.models.User
 import fr.cnam.apptrade.account.services.UserManagerService
 import fr.cnam.apptrade.network.ApiClient
+import fr.cnam.apptrade.network.models.ApiResponse
 import fr.cnam.apptrade.network.models.Currency
 import fr.cnam.apptrade.network.models.Transaction
 import retrofit2.Call
@@ -95,4 +96,41 @@ class TransactionViewModel : ViewModel() {
             BigDecimal.ZERO
         }
     }
+
+    fun buyCurrency(amount: Double) {
+        ApiClient.currencyApiService.buyCurrency(currencyData.value?.code!!, amount).enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(
+                call: Call<ApiResponse>,
+                response: Response<ApiResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val newBalance = balance.value?.minus(BigDecimal.valueOf(amount))
+                    balance.postValue(newBalance!!)
+                    }
+                }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                balance.postValue(balance.value)
+            }
+        })
+    }
+
+    fun sellCurrency(amount: Double) {
+        ApiClient.currencyApiService.sellCurrency(currencyData.value?.code!!, amount).enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(
+                call: Call<ApiResponse>,
+                response: Response<ApiResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val newBalance = balance.value?.plus(BigDecimal.valueOf(amount))
+                    balance.postValue(newBalance!!)
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                balance.postValue(balance.value)
+            }
+        })
+    }
+
 }

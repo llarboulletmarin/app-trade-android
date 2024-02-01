@@ -3,6 +3,7 @@ package fr.cnam.apptrade.network.services
 import fr.cnam.apptrade.network.models.ApiResponse
 import fr.cnam.apptrade.network.models.Currency
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -16,6 +17,10 @@ interface CurrencyApiService {
     fun getCurrency(@Path("codeCurrency") codeCurrency: String): Call<Currency>
 
     @POST("currencies/{codeCurrency}/buy")
-    fun buyCurrency(@Path("codeCurrency") codeCurrency: String): Call<ApiResponse>
+    fun buyCurrency(@Path("codeCurrency") codeCurrency: String,
+                    @Body amount: Double): Call<ApiResponse>
 
+    @POST("currencies/{codeCurrency}/sell")
+    fun sellCurrency(@Path("codeCurrency") codeCurrency: String,
+                     @Body amount: Double): Call<ApiResponse>
 }
