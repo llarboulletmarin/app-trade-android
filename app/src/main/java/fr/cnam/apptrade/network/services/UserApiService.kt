@@ -39,5 +39,7 @@ interface UserApiService {
     @POST("user/deposit")
     fun deposit(@Body request: TransactionCardRequest): Call<TransactionCardResponse>
 
+    @POST("user/withdraw")
+    fun withdraw(@Body request: TransactionCardRequest): Call<TransactionCardResponse>
 
 }

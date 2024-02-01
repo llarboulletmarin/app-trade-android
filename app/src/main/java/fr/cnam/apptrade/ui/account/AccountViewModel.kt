@@ -1,6 +1,7 @@
 package fr.cnam.apptrade.ui.account
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,7 @@ class AccountViewModel : ViewModel() {
     val user: LiveData<User> = _user
 
     var depositAmount = ""
+    var withdrawAmount = ""
 
     fun initUser(context: Context) {
         UserManagerService.getInstance(context).getUser()?.let {
@@ -28,8 +30,9 @@ class AccountViewModel : ViewModel() {
     }
 
     fun deposit(context: Context) {
+        val amount = BigDecimal(depositAmount)
         val request =
-            TransactionCardRequest(user.value!!.creditCards[0].id, BigDecimal(depositAmount))
+            TransactionCardRequest(user.value!!.creditCards[0].id, amount)
 
         ApiClient.userApiService.deposit(request)
             .enqueue(object : Callback<TransactionCardResponse> {
@@ -38,11 +41,13 @@ class AccountViewModel : ViewModel() {
                     response: Response<TransactionCardResponse>
                 ) {
                     if (response.isSuccessful) {
-                        println("[DEBUG] deposit: ${response.body()}")
-                        UserManagerService.getInstance(context).deposit(BigDecimal(depositAmount))
+                        UserManagerService.getInstance(context).deposit(amount)
                         initUser(context)
                         depositAmount = ""
-                        println("[DEBUG] deposit: ${user.value!!.balance}")
+
+                        //display a toast message
+                        Toast.makeText(context, "Deposit successful", Toast.LENGTH_SHORT).show()
+
                     } else {
                         println("[DEBUG] deposit: ${response.errorBody()}")
                     }
@@ -50,6 +55,36 @@ class AccountViewModel : ViewModel() {
 
                 override fun onFailure(call: Call<TransactionCardResponse>, t: Throwable) {
                     println("[DEBUG] deposit: ${t.message}")
+                }
+            })
+    }
+
+    fun withdraw(context: Context) {
+        val amount = BigDecimal(withdrawAmount)
+        val request =
+            TransactionCardRequest(user.value!!.creditCards[0].id, amount)
+
+        ApiClient.userApiService.withdraw(request)
+            .enqueue(object : Callback<TransactionCardResponse> {
+                override fun onResponse(
+                    call: Call<TransactionCardResponse>,
+                    response: Response<TransactionCardResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        UserManagerService.getInstance(context).withdraw(amount)
+                        initUser(context)
+                        withdrawAmount = ""
+
+                        //display a toast message
+                        Toast.makeText(context, "Withdraw successful", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        println("[DEBUG] withdraw: ${response.errorBody()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<TransactionCardResponse>, t: Throwable) {
+                    println("[DEBUG] withdraw: ${t.message}")
                 }
             })
     }

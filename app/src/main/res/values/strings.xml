@@ -46,5 +46,7 @@
     <string name="deposit">Deposit</string>
     <string name="amount">Amount</string>
     <string name="depositTitle">Deposit :</string>
+    <string name="withdrawTitle">Withdraw :</string>
+    <string name="withdraw">Withdraw</string>
 
 </resources>

@@ -54,6 +54,13 @@ class AccountFragment : Fragment(), LogoutCallback {
         val depositButton: Button = binding.depositButton
         depositButton.setOnClickListener {
             accountViewModel.deposit(requireContext())
+            binding.depositAmount.text.clear()
+        }
+
+        val withdrawButton: Button = binding.withdrawButton
+        withdrawButton.setOnClickListener {
+            accountViewModel.withdraw(requireContext())
+            binding.withdrawAmount.text.clear()
         }
     }
 

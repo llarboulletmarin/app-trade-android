@@ -41,13 +41,16 @@ class WalletFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        val walletViewModel = ViewModelProvider(this)[WalletViewModel::class.java]
+        walletViewModel.initUser(requireContext())
+    }
+
     private fun initObservers(walletViewModel: WalletViewModel) {
         walletViewModel.user.observe(viewLifecycleOwner) {
             moneyAdapter.updateData(listOf(Currency("Euro", "EUR", it.balance)))
         }
-
-//        walletViewModel.transactions.observe(viewLifecycleOwner) {
-//        }
 
         walletViewModel.currencyData.observe(viewLifecycleOwner) { currencies ->
             var currencyList: List<Currency> = emptyList()

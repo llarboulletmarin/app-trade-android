@@ -59,10 +59,20 @@ class UserManagerService private constructor(context: Context) {
     }
 
     fun deposit(amount: BigDecimal) {
-        //update user in cache
         val user = getUser()
         if (user != null) {
             user.balance = user.balance.add(amount)
+            sharedPreferences.edit().apply {
+                putString("user", Gson().toJson(user))
+                apply()
+            }
+        }
+    }
+
+    fun withdraw(amount: BigDecimal) {
+        val user = getUser()
+        if (user != null) {
+            user.balance = user.balance.subtract(amount)
             sharedPreferences.edit().apply {
                 putString("user", Gson().toJson(user))
                 apply()
