@@ -30,7 +30,7 @@
             android:id="@+id/total_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(wallet.balance)}"
+            android:text="@{wallet.balance.setScale(2, 2).toString()}"
             android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="@color/black"

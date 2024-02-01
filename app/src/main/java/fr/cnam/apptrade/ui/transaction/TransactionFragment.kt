@@ -4,19 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import fr.cnam.apptrade.R
 import fr.cnam.apptrade.databinding.FragmentTransactionBinding
-import fr.cnam.apptrade.network.models.Currency
-import fr.cnam.apptrade.ui.trade.CurrencyAdapter
 
 class TransactionFragment : Fragment() {
 
     private lateinit var transactionViewModel: TransactionViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

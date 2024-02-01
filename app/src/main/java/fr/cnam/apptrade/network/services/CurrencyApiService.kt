@@ -13,7 +13,7 @@ interface CurrencyApiService {
     fun getCurrencies(): Call<List<Currency>>
 
     @GET("currencies/{codeCurrency}")
-    fun getCurrency(@Path("codeCurrency") codeCurrency: String): Call<List<Currency>>
+    fun getCurrency(@Path("codeCurrency") codeCurrency: String): Call<Currency>
 
     @POST("currencies/{codeCurrency}/buy")
     fun buyCurrency(@Path("codeCurrency") codeCurrency: String): Call<ApiResponse>

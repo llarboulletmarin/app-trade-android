@@ -6,19 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import fr.cnam.apptrade.MainActivity
+import fr.cnam.apptrade.R
 import fr.cnam.apptrade.account.callback.LogoutCallback
 import fr.cnam.apptrade.account.services.UserManagerService
 import fr.cnam.apptrade.databinding.FragmentAccountBinding
 
 class AccountFragment : Fragment(), LogoutCallback {
 
-    private var _binding: FragmentAccountBinding? = null
-
-    private val binding get() = _binding!!
+    private lateinit var accountViewModel: AccountViewModel
 
     override fun onLogout() {
         val intent = Intent(context, MainActivity::class.java)
@@ -30,28 +29,32 @@ class AccountFragment : Fragment(), LogoutCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+        val binding: FragmentAccountBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
 
-        _binding = FragmentAccountBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        accountViewModel = ViewModelProvider(this)[AccountViewModel::class.java]
 
-        val textView: TextView = binding.textAccount
-        accountViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        accountViewModel.initUser(requireContext())
+        binding.viewModel = accountViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
+        this.initButtons(binding)
+
+        return binding.root
+    }
+
+    fun initButtons(binding: FragmentAccountBinding) {
         // récupère le clic sur le bouton de déconnexion
         val logoutButton: Button = binding.logoutButton
         logoutButton.setOnClickListener {
             UserManagerService.getInstance(requireContext()).logout(this)
         }
 
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        // récupère le clic sur le bouton deposit
+        val depositButton: Button = binding.depositButton
+        depositButton.setOnClickListener {
+            accountViewModel.deposit(requireContext())
+        }
     }
 
 }

@@ -40,7 +40,11 @@
     <string name="lib_nb_wallet">Balance %s : %s = $ %s</string>
     <string name="symb_euro">$ %s</string>
 
-    <string name="buy">Acheter</string>
-    <string name="sell">Vendre</string>
+    <string name="buy">Buy</string>
+    <string name="sell">Sell</string>
+    <string name="accountTitle">Hello %s !</string>
+    <string name="deposit">Deposit</string>
+    <string name="amount">Amount</string>
+    <string name="depositTitle">Deposit :</string>
 
 </resources>

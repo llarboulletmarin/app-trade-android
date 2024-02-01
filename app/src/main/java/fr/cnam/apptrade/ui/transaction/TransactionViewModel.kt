@@ -9,9 +9,9 @@ import fr.cnam.apptrade.account.services.UserManagerService
 import fr.cnam.apptrade.network.ApiClient
 import fr.cnam.apptrade.network.models.Currency
 import fr.cnam.apptrade.network.models.Transaction
+import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Call
 import java.math.BigDecimal
 import java.util.Date
 
@@ -36,22 +36,23 @@ class TransactionViewModel : ViewModel() {
     }
 
     fun fetchCurrency(currencyCode: String) {
-        ApiClient.currencyApiService.getCurrency(currencyCode).enqueue(object : Callback<List<Currency>> {
-                override fun onResponse(
-                    call: Call<List<Currency>>,
-                    response: Response<List<Currency>>
-                ) {
-                    if (response.isSuccessful) {
-                        val currency = response.body()?.get(0)
-                        currency?.price = currency?.price?.setScale(4, 2)!!
-                        _currencyData.postValue(currency!!)
-                    } else {
-                        _currencyData.postValue(Currency("", "", 0.toBigDecimal()))
-                    }
-                }
-                override fun onFailure(call: Call<List<Currency>>, t: Throwable) {
+        ApiClient.currencyApiService.getCurrency(currencyCode).enqueue(object : Callback<Currency> {
+            override fun onResponse(
+                call: Call<Currency>,
+                response: Response<Currency>
+            ) {
+                if (response.isSuccessful) {
+                    val currency = response.body()
+                    currency?.price = currency?.price?.setScale(4, 2)!!
+                    _currencyData.postValue(currency!!)
+                } else {
                     _currencyData.postValue(Currency("", "", 0.toBigDecimal()))
                 }
+            }
+
+            override fun onFailure(call: Call<Currency>, t: Throwable) {
+                _currencyData.postValue(Currency("", "", 0.toBigDecimal()))
+            }
             })
     }
 

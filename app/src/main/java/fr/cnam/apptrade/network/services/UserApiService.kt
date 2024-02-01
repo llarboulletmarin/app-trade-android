@@ -4,6 +4,8 @@ import fr.cnam.apptrade.account.models.User
 import fr.cnam.apptrade.network.models.ApiResponse
 import fr.cnam.apptrade.network.models.Favorite
 import fr.cnam.apptrade.network.models.Transaction
+import fr.cnam.apptrade.network.models.TransactionCardRequest
+import fr.cnam.apptrade.network.models.TransactionCardResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -33,5 +35,9 @@ interface UserApiService {
 
     @DELETE("user/favorites/{currencyCode}")
     fun removeFavorite(@Path("currencyCode") currencyCode: String): Call<ApiResponse>
+
+    @POST("user/deposit")
+    fun deposit(@Body request: TransactionCardRequest): Call<TransactionCardResponse>
+
 
 }

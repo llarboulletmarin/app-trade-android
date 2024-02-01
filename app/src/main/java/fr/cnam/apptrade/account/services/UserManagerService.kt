@@ -8,6 +8,7 @@ import fr.cnam.apptrade.account.callback.LogoutCallback
 import fr.cnam.apptrade.account.models.User
 import fr.cnam.apptrade.network.RetrofitClient
 import okhttp3.Credentials
+import java.math.BigDecimal
 
 class UserManagerService private constructor(context: Context) {
 
@@ -55,6 +56,18 @@ class UserManagerService private constructor(context: Context) {
         }
         _isLoggedIn.value = false
         callback.onLogout()
+    }
+
+    fun deposit(amount: BigDecimal) {
+        //update user in cache
+        val user = getUser()
+        if (user != null) {
+            user.balance = user.balance.add(amount)
+            sharedPreferences.edit().apply {
+                putString("user", Gson().toJson(user))
+                apply()
+            }
+        }
     }
 
     companion object {
