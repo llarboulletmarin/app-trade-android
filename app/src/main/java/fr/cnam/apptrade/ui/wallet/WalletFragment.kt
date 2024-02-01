@@ -28,7 +28,7 @@ class WalletFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val walletViewModel = ViewModelProvider(this)[WalletViewModel::class.java]
-        walletViewModel.initUser(requireContext())
+        walletViewModel.init(requireContext())
 
         val binding: FragmentWalletBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_wallet, container, false)
@@ -44,7 +44,7 @@ class WalletFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val walletViewModel = ViewModelProvider(this)[WalletViewModel::class.java]
-        walletViewModel.initUser(requireContext())
+        walletViewModel.init(requireContext())
     }
 
     private fun initObservers(walletViewModel: WalletViewModel) {
@@ -80,8 +80,6 @@ class WalletFragment : Fragment() {
 
         }
 
-//        walletViewModel.isLoading.observe(viewLifecycleOwner, {
-//        })
     }
 
     private fun initRecyclers(view: View) {

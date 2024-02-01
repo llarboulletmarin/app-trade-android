@@ -32,8 +32,12 @@ class WalletViewModel : ViewModel() {
 
     init {
         _isLoading.postValue(true)
-        fetchCurrencies()
+    }
+
+    fun init(context: Context) {
+        initUser(context)
         fetchTransactions()
+        fetchCurrencies()
     }
 
     fun initUser(context: Context) {
