@@ -28,7 +28,7 @@ class WalletViewModel : ViewModel() {
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
-    val balance: MutableLiveData<BigDecimal> = MutableLiveData()
+    val totalBalance: MutableLiveData<BigDecimal> = MutableLiveData(0.toBigDecimal())
 
     init {
         _isLoading.postValue(true)
@@ -40,10 +40,10 @@ class WalletViewModel : ViewModel() {
         fetchCurrencies()
     }
 
-    fun initUser(context: Context) {
+    private fun initUser(context: Context) {
         UserManagerService.getInstance(context).getUser()?.let {
             _user.postValue(it)
-            balance.postValue(it.balance)
+            totalBalance.postValue(it.balance)
         }
     }
 

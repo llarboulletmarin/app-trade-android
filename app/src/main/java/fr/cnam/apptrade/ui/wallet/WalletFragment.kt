@@ -17,6 +17,8 @@ import java.math.BigDecimal
 
 class WalletFragment : Fragment() {
 
+    private lateinit var walletViewModel: WalletViewModel
+
     private lateinit var moneyRecycler: RecyclerView
     private lateinit var walletRecycler: RecyclerView
 
@@ -27,7 +29,7 @@ class WalletFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val walletViewModel = ViewModelProvider(this)[WalletViewModel::class.java]
+        walletViewModel = ViewModelProvider(this)[WalletViewModel::class.java]
         walletViewModel.init(requireContext())
 
         val binding: FragmentWalletBinding =
@@ -43,7 +45,6 @@ class WalletFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val walletViewModel = ViewModelProvider(this)[WalletViewModel::class.java]
         walletViewModel.init(requireContext())
     }
 
@@ -76,10 +77,8 @@ class WalletFragment : Fragment() {
             currencyList.forEach { currency ->
                 balance = balance.plus(currency.price)
             }
-            walletViewModel.balance.postValue(walletViewModel.balance.value?.plus(balance))
-
+            walletViewModel.totalBalance.postValue(balance + walletViewModel.user.value!!.balance)
         }
-
     }
 
     private fun initRecyclers(view: View) {
