@@ -13,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import fr.cnam.apptrade.R
 import fr.cnam.apptrade.databinding.FragmentTransactionBinding
@@ -23,6 +22,7 @@ class TransactionFragment : Fragment() {
 
     private lateinit var transactionViewModel: TransactionViewModel
 
+    // Affiche une boîte de dialogue pour acheter de la cryptomonnaie
     private fun showBuyDialog(selectedCurrency: String, context: Context) {
         val minAmount = 0.0
         val maxAmount = transactionViewModel.user.value?.balance?.toDouble() ?: 0.0
@@ -50,6 +50,7 @@ class TransactionFragment : Fragment() {
         dialog.show()
     }
 
+    // Affiche une boîte de dialogue pour vendre de la cryptomonnaie
     private fun showSellDialog(selectedCurrency: String, context: Context) {
         val minAmount = 0.0
         val maxAmount = transactionViewModel.transactions.value?.value?.toDouble() ?: 0.0
@@ -76,9 +77,9 @@ class TransactionFragment : Fragment() {
         dialog.show()
     }
 
+    // Crée la vue du fragment
     @SuppressLint("DiscouragedApi")
     override fun onCreateView(
-
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
 
@@ -92,18 +93,21 @@ class TransactionFragment : Fragment() {
 
         transactionViewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
 
+        // Récupère les informations de la devise sélectionnée et de l'utilisateur
         transactionViewModel.fetchCurrency(selectedCurrency!!)
         transactionViewModel.initUser(requireContext())
 
-        // Définition de l'icône de la devise.
+        // Définit l'icône de la devise
         val resourceId = context?.resources?.getIdentifier(selectedCurrency.lowercase(Locale.getDefault()), "drawable", context?.packageName)
         binding.currencyIcon.setBackgroundResource(
             if (resourceId != 0) resourceId!! else R.drawable.ic_launcher_foreground
         )
 
+        // Lie les données du ViewModel au layout
         binding.transaction = transactionViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        // Définit les actions des boutons d'achat et de vente
         buyButton.setOnClickListener {
             showBuyDialog(selectedCurrency, requireContext())
         }

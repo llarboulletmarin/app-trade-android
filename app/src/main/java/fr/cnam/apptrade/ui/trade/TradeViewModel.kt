@@ -16,37 +16,38 @@ import retrofit2.Response
 
 class TradeViewModel : ViewModel() {
 
+    // Données de devise
     private val _currencyData = MutableLiveData<List<Currency>>()
     val currencyData: LiveData<List<Currency>> = _currencyData
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
+    // Utilisateur
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
+    // Favoris
     private val _favorites = MutableLiveData<List<Favorite>?>()
     val favorites: MutableLiveData<List<Favorite>?> = _favorites
 
+    // Initialisation du ViewModel
     init {
-        _isLoading.postValue(true)
         fetchFavorites()
         fetchCurrencies()
     }
 
+    // Initialisation de l'utilisateur
     fun initUser(context: Context) {
         UserManagerService.getInstance(context).getUser()?.let {
             _user.postValue(it)
         }
     }
 
+    // Récupération des favoris
     private fun fetchFavorites() {
         ApiClient.userApiService.getFavorites().enqueue(object : Callback<List<Favorite>> {
             override fun onResponse(
                 call: Call<List<Favorite>>,
                 response: Response<List<Favorite>>
             ) {
-                _isLoading.postValue(false)
                 if (response.isSuccessful) {
                     println("[DEBUG] Favorites: ${response.body()}")
                     _favorites.postValue(response.body())
@@ -56,29 +57,28 @@ class TradeViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<List<Favorite>>, t: Throwable) {
-                _isLoading.postValue(false)
                 _favorites.postValue(emptyList())
             }
         })
     }
 
+    // Récupération des devises
     fun fetchCurrencies() {
         ApiClient.currencyApiService.getCurrencies().enqueue(object : Callback<List<Currency>> {
             override fun onResponse(
                 call: Call<List<Currency>>,
                 response: Response<List<Currency>>
             ) {
-                _isLoading.postValue(false)
                 if (response.isSuccessful)
                     _currencyData.value = response.body()
             }
 
             override fun onFailure(call: Call<List<Currency>>, t: Throwable) {
-                _isLoading.postValue(false)
             }
         })
     }
 
+    // Ajout d'un favori
     fun addFavorite(currency: Currency) {
         ApiClient.userApiService.addFavorite(currency.code).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
@@ -91,6 +91,7 @@ class TradeViewModel : ViewModel() {
         })
     }
 
+    // Suppression d'un favori
     fun removeFavorite(currency: Currency) {
         ApiClient.userApiService.removeFavorite(currency.code).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
@@ -103,6 +104,7 @@ class TradeViewModel : ViewModel() {
         })
     }
 
+    // Vérification si une devise est un favori
     fun isFavorite(currency: Currency): Boolean {
         return favorites.value?.find { it.code == currency.code } != null
     }

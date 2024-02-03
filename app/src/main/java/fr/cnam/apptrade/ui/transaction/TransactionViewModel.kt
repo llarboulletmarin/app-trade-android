@@ -18,17 +18,22 @@ import java.util.Date
 
 class TransactionViewModel : ViewModel() {
 
+    // Les données de la devise sélectionnée
     private val _currencyData = MutableLiveData<Currency>()
     val currencyData: LiveData<Currency> = _currencyData
 
+    // Les transactions de l'utilisateur
     private val _transactions = MutableLiveData<Transaction?>()
     val transactions: MutableLiveData<Transaction?> = _transactions
 
+    // Les informations de l'utilisateur
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
+    // Le solde de l'utilisateur
     val balance: MutableLiveData<BigDecimal> = MutableLiveData()
 
+    // Initialiser les informations de l'utilisateur
     fun initUser(context: Context) {
         UserManagerService.getInstance(context).getUser()?.let {
             _user.postValue(it)
@@ -36,7 +41,8 @@ class TransactionViewModel : ViewModel() {
         }
     }
 
-   fun fetchCurrency(currencyCode: String) {
+    // Récupérer les informations de la devise
+    fun fetchCurrency(currencyCode: String) {
         ApiClient.currencyApiService.getCurrency(currencyCode).enqueue(object : Callback<Currency> {
             override fun onResponse(
                 call: Call<Currency>,
@@ -57,6 +63,7 @@ class TransactionViewModel : ViewModel() {
         })
     }
 
+    // Récupérer les transactions de l'utilisateur
     private fun fetchTransactions(currencyCode: String) {
         ApiClient.userApiService.getTransactionsByCurrency(currencyCode).enqueue(object : Callback<List<Transaction>> {
             override fun onResponse(
@@ -87,6 +94,7 @@ class TransactionViewModel : ViewModel() {
         })
     }
 
+    // Acheter de la devise
     fun buyCurrency(amount: Double, context: Context) {
         ApiClient.currencyApiService.buyCurrency(currencyData.value?.code!!, amount).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(
@@ -104,6 +112,7 @@ class TransactionViewModel : ViewModel() {
         })
     }
 
+    // Vendre de la devise
     fun sellCurrency(amount: Double, context: Context) {
         ApiClient.currencyApiService.sellCurrency(currencyData.value?.code!!, amount).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(
