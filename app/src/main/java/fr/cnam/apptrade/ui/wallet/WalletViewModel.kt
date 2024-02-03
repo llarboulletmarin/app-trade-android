@@ -19,9 +19,6 @@ class WalletViewModel : ViewModel() {
     private val _transactions = MutableLiveData<List<Transaction>>()
     val transactions: LiveData<List<Transaction>> = _transactions
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
     private val _currencyData = MutableLiveData<List<Currency>>()
     val currencyData: LiveData<List<Currency>> = _currencyData
 
@@ -29,10 +26,6 @@ class WalletViewModel : ViewModel() {
     val user: LiveData<User> = _user
 
     val totalBalance: MutableLiveData<BigDecimal> = MutableLiveData(0.toBigDecimal())
-
-    init {
-        _isLoading.postValue(true)
-    }
 
     fun init(context: Context) {
         initUser(context)
@@ -53,7 +46,6 @@ class WalletViewModel : ViewModel() {
                 call: Call<List<Transaction>>,
                 response: Response<List<Transaction>>
             ) {
-                _isLoading.postValue(false)
                 if (response.isSuccessful) {
                     println("[DEBUG] Transactions: ${response.body()}")
                     _transactions.postValue(response.body())
@@ -63,7 +55,6 @@ class WalletViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<List<Transaction>>, t: Throwable) {
-                _isLoading.postValue(false)
                 _transactions.postValue(emptyList())
             }
         })
@@ -76,13 +67,12 @@ class WalletViewModel : ViewModel() {
                 call: Call<List<Currency>>,
                 response: Response<List<Currency>>
             ) {
-                _isLoading.postValue(false)
                 if (response.isSuccessful)
                     _currencyData.value = response.body()
             }
 
             override fun onFailure(call: Call<List<Currency>>, t: Throwable) {
-                _isLoading.postValue(false)
+                _currencyData.value = emptyList()
             }
         })
     }

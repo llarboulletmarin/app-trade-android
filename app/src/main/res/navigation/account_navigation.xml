@@ -19,7 +19,11 @@
         android:id="@+id/navigation_wallet"
         android:name="fr.cnam.apptrade.ui.wallet.WalletFragment"
         android:label="@string/title_wallet"
-        tools:layout="@layout/fragment_wallet" />
+        tools:layout="@layout/fragment_wallet">
+        <action
+            android:id="@+id/action_navigation_wallet_to_navigation_transaction"
+            app:destination="@id/navigation_transaction" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_account"
