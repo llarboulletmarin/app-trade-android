@@ -21,6 +21,7 @@ class TransactionFragment : Fragment() {
     private lateinit var transactionViewModel: TransactionViewModel
 
     private fun showBuyDialog(selectedCurrency: String, context: Context) {
+
         val input = EditText(context)
         input.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
 
@@ -31,8 +32,7 @@ class TransactionFragment : Fragment() {
             .setPositiveButton("Acheter") { _, _ ->
                 val amount = input.text.toString().toDoubleOrNull()
                 if (amount != null) {
-                    transactionViewModel.buyCurrency(amount)
-                    transactionViewModel.fetchTransactions(selectedCurrency)
+                    transactionViewModel.buyCurrency(amount,context)
                     transactionViewModel.fetchCurrency(selectedCurrency)
                     transactionViewModel.initUser(context)
                 } else {
@@ -55,8 +55,7 @@ class TransactionFragment : Fragment() {
             .setPositiveButton("Vendre") { _, _ ->
                 val amount = input.text.toString().toDoubleOrNull()
                 if (amount != null) {
-                    transactionViewModel.sellCurrency(amount)
-                    transactionViewModel.fetchTransactions(selectedCurrency)
+                    transactionViewModel.sellCurrency(amount,context)
                     transactionViewModel.fetchCurrency(selectedCurrency)
                     transactionViewModel.initUser(context)
                 } else {
@@ -82,7 +81,6 @@ class TransactionFragment : Fragment() {
         transactionViewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
 
         transactionViewModel.fetchCurrency(selectedCurrency!!)
-        transactionViewModel.fetchTransactions(selectedCurrency)
         transactionViewModel.initUser(requireContext())
 
         binding.transaction = transactionViewModel

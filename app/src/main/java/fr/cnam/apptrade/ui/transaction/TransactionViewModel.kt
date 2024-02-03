@@ -29,6 +29,8 @@ class TransactionViewModel : ViewModel() {
 
     val balance: MutableLiveData<BigDecimal> = MutableLiveData()
 
+    val balanceCurrency: MutableLiveData<BigDecimal> = MutableLiveData()
+
     fun initUser(context: Context) {
         UserManagerService.getInstance(context).getUser()?.let {
             _user.postValue(it)
@@ -36,7 +38,7 @@ class TransactionViewModel : ViewModel() {
         }
     }
 
-    fun fetchCurrency(currencyCode: String) {
+   fun fetchCurrency(currencyCode: String) {
         ApiClient.currencyApiService.getCurrency(currencyCode).enqueue(object : Callback<Currency> {
             override fun onResponse(
                 call: Call<Currency>,
@@ -46,18 +48,18 @@ class TransactionViewModel : ViewModel() {
                     val currency = response.body()
                     currency?.price = currency?.price?.setScale(4, 2)!!
                     _currencyData.postValue(currency!!)
+                    fetchTransactions(currencyCode)
                 } else {
                     _currencyData.postValue(Currency("", "", 0.toBigDecimal()))
                 }
             }
-
             override fun onFailure(call: Call<Currency>, t: Throwable) {
                 _currencyData.postValue(Currency("", "", 0.toBigDecimal()))
             }
-            })
+        })
     }
 
-    fun fetchTransactions(currencyCode: String) {
+    private fun fetchTransactions(currencyCode: String) {
         ApiClient.userApiService.getTransactionsByCurrency(currencyCode).enqueue(object : Callback<List<Transaction>> {
             override fun onResponse(
                 call: Call<List<Transaction>>,
@@ -66,8 +68,9 @@ class TransactionViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val transactions = response.body()
                     val totalAmount = transactions?.sumOf { it.amount } ?: BigDecimal.ZERO
+                    val totalValue = totalAmount.multiply(currencyData.value?.price!!)
                     _transactions.postValue(
-                        Transaction(Currency("", "", 0.toBigDecimal()), totalAmount, 0.toBigDecimal(),
+                        Transaction(Currency("", "", 0.toBigDecimal()), totalAmount?.setScale(4, 2)!!, totalValue?.setScale(4, 2)!!,
                             Date())
                     )
                 } else {
@@ -86,47 +89,32 @@ class TransactionViewModel : ViewModel() {
         })
     }
 
-    fun calculateProduct(): BigDecimal {
-        val amount = transactions.value?.amount
-        val price = currencyData.value?.price
-
-        return if (amount != null && price != null) {
-            amount.multiply(price)
-        } else {
-            BigDecimal.ZERO
-        }
-    }
-
-    fun buyCurrency(amount: Double) {
+    fun buyCurrency(amount: Double, context: Context) {
         ApiClient.currencyApiService.buyCurrency(currencyData.value?.code!!, amount).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(
                 call: Call<ApiResponse>,
                 response: Response<ApiResponse>
             ) {
                 if (response.isSuccessful) {
-                    val newBalance = balance.value?.minus(BigDecimal.valueOf(amount))
-                    balance.postValue(newBalance!!)
+                    UserManagerService.getInstance(context).withdraw(BigDecimal.valueOf(amount))
                     }
                 }
-
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                 balance.postValue(balance.value)
             }
         })
     }
 
-    fun sellCurrency(amount: Double) {
+    fun sellCurrency(amount: Double, context: Context) {
         ApiClient.currencyApiService.sellCurrency(currencyData.value?.code!!, amount).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(
                 call: Call<ApiResponse>,
                 response: Response<ApiResponse>
             ) {
                 if (response.isSuccessful) {
-                    val newBalance = balance.value?.plus(BigDecimal.valueOf(amount))
-                    balance.postValue(newBalance!!)
+                    UserManagerService.getInstance(context).deposit(BigDecimal.valueOf(amount))
                 }
             }
-
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                 balance.postValue(balance.value)
             }
