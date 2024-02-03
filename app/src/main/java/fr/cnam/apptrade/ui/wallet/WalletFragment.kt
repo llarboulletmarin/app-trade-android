@@ -56,7 +56,7 @@ class WalletFragment : Fragment() {
     private fun initObservers(walletViewModel: WalletViewModel) {
         // Observe les changements de l'utilisateur et met à jour l'adapter
         walletViewModel.user.observe(viewLifecycleOwner) {
-            moneyAdapter.updateData(listOf(Currency("Euro", "EUR", it.balance)))
+            moneyAdapter.updateData(listOf(Currency("Dollar", "USD", it.balance)))
         }
 
         // Observe les changements des données de la monnaie et met à jour l'adapter
