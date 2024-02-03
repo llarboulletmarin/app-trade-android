@@ -49,7 +49,6 @@ class TradeViewModel : ViewModel() {
                 response: Response<List<Favorite>>
             ) {
                 if (response.isSuccessful) {
-                    println("[DEBUG] Favorites: ${response.body()}")
                     _favorites.postValue(response.body())
                 } else {
                     _favorites.postValue(emptyList())

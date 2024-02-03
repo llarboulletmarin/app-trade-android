@@ -31,14 +31,17 @@ class WalletFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Initialisation du ViewModel
         walletViewModel = ViewModelProvider(this)[WalletViewModel::class.java]
         walletViewModel.init(requireContext())
 
+        // Liaison des données avec la vue
         val binding: FragmentWalletBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_wallet, container, false)
         binding.wallet = walletViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        // Initialisation des RecyclerViews et des observateurs
         initRecyclers(binding.root)
         initObservers(walletViewModel)
 
@@ -51,16 +54,20 @@ class WalletFragment : Fragment() {
     }
 
     private fun initObservers(walletViewModel: WalletViewModel) {
+        // Observe les changements de l'utilisateur et met à jour l'adapter
         walletViewModel.user.observe(viewLifecycleOwner) {
             moneyAdapter.updateData(listOf(Currency("Euro", "EUR", it.balance)))
         }
 
+        // Observe les changements des données de la monnaie et met à jour l'adapter
         walletViewModel.currencyData.observe(viewLifecycleOwner) { currencies ->
             var currencyList: List<Currency> = emptyList()
 
+            // Pour chaque transaction, on ajoute la monnaie à la liste
             walletViewModel.transactions.value?.forEach() { transaction ->
                 val currency = currencyList.find { it.code == transaction.currency.code }
                 if (currency == null) {
+                    // On ajoute la monnaie à la liste
                     currencyList = currencyList.plus(
                         Currency(
                             transaction.currency.name,
@@ -69,12 +76,15 @@ class WalletFragment : Fragment() {
                         )
                     )
                 } else {
+                    // On met à jour le prix de la monnaie
                     currency.price =
                         currency.price.plus(transaction.amount.multiply(currencies.find { it.code == transaction.currency.code }!!.price))
                 }
             }
+            // On met à jour l'adapter
             walletAdapter.updateData(currencyList)
 
+            // On met à jour le solde total
             var balance = BigDecimal(0.0)
             currencyList.forEach { currency ->
                 balance = balance.plus(currency.price)
@@ -96,6 +106,7 @@ class WalletFragment : Fragment() {
         moneyAdapter = CurrencyAdapter(list, null)
         moneyRecycler.adapter = moneyAdapter
 
+        // Initialisation de l'adapter de la liste des monnaies, avec un listener pour les clics
         walletAdapter = CurrencyAdapter(emptyList(), object : OnItemClickListener {
             override fun onItemClicked(currency: Currency) {
                 findNavController().navigate(

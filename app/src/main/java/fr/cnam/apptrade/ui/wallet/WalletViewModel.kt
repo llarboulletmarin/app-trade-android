@@ -41,6 +41,7 @@ class WalletViewModel : ViewModel() {
     }
 
     private fun fetchTransactions() {
+        // Récupère les transactions de l'utilisateur
         ApiClient.userApiService.getTransactions().enqueue(object : Callback<List<Transaction>> {
             override fun onResponse(
                 call: Call<List<Transaction>>,
@@ -62,6 +63,7 @@ class WalletViewModel : ViewModel() {
 
 
     private fun fetchCurrencies() {
+        // Récupère les monnaies disponibles
         ApiClient.currencyApiService.getCurrencies().enqueue(object : Callback<List<Currency>> {
             override fun onResponse(
                 call: Call<List<Currency>>,
