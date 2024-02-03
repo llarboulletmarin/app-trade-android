@@ -1,5 +1,6 @@
 package fr.cnam.apptrade.ui.transaction
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
@@ -12,64 +13,75 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import fr.cnam.apptrade.R
 import fr.cnam.apptrade.databinding.FragmentTransactionBinding
+import java.util.Locale
 
 class TransactionFragment : Fragment() {
 
     private lateinit var transactionViewModel: TransactionViewModel
 
     private fun showBuyDialog(selectedCurrency: String, context: Context) {
+        val minAmount = 0.0
+        val maxAmount = transactionViewModel.user.value?.balance?.toDouble() ?: 0.0
 
         val input = EditText(context)
         input.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
 
         val dialog = AlertDialog.Builder(context)
-            .setTitle("Acheter de la crypto-monnaie")
-            .setMessage("Combien voulez-vous acheter ?")
+            .setTitle("Buy Cryptocurrency")
+            .setMessage("How much do you want to buy?")
             .setView(input)
-            .setPositiveButton("Acheter") { _, _ ->
+            .setPositiveButton("Buy") { _, _ ->
                 val amount = input.text.toString().toDoubleOrNull()
-                if (amount != null) {
+                if (amount != null && amount in minAmount..maxAmount) {
                     transactionViewModel.buyCurrency(amount,context)
                     transactionViewModel.fetchCurrency(selectedCurrency)
                     transactionViewModel.initUser(context)
+                    Toast.makeText(context, "Transaction successful", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, "Veuillez entrer un nombre valide", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please enter a valid number between $minAmount and $maxAmount", Toast.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Annuler", null)
+            .setNegativeButton("Cancel", null)
             .create()
         dialog.show()
     }
 
     private fun showSellDialog(selectedCurrency: String, context: Context) {
+        val minAmount = 0.0
+        val maxAmount = transactionViewModel.transactions.value?.value?.toDouble() ?: 0.0
+
         val input = EditText(context)
         input.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
 
         val dialog = AlertDialog.Builder(context)
-            .setTitle("Vendre de la crypto-monnaie")
-            .setMessage("Combien voulez-vous vendre ?")
+            .setTitle("Sell Cryptocurrency")
+            .setMessage("How much do you want to sell?")
             .setView(input)
-            .setPositiveButton("Vendre") { _, _ ->
+            .setPositiveButton("Sell") { _, _ ->
                 val amount = input.text.toString().toDoubleOrNull()
-                if (amount != null) {
+                if (amount != null && amount in minAmount..maxAmount) {
                     transactionViewModel.sellCurrency(amount,context)
                     transactionViewModel.fetchCurrency(selectedCurrency)
                     transactionViewModel.initUser(context)
                 } else {
-                    Toast.makeText(context, "Veuillez entrer un nombre valide", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please enter a valid number between $minAmount and $maxAmount", Toast.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Annuler", null)
+            .setNegativeButton("Cancel", null)
             .create()
         dialog.show()
     }
 
+    @SuppressLint("DiscouragedApi")
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View {
         val selectedCurrency = arguments?.getString("selectedCurrency")
         val binding: FragmentTransactionBinding =
@@ -82,6 +94,12 @@ class TransactionFragment : Fragment() {
 
         transactionViewModel.fetchCurrency(selectedCurrency!!)
         transactionViewModel.initUser(requireContext())
+
+        // Définition de l'icône de la devise.
+        val resourceId = context?.resources?.getIdentifier(selectedCurrency.lowercase(Locale.getDefault()), "drawable", context?.packageName)
+        binding.currencyIcon.setBackgroundResource(
+            if (resourceId != 0) resourceId!! else R.drawable.ic_launcher_foreground
+        )
 
         binding.transaction = transactionViewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -96,4 +114,5 @@ class TransactionFragment : Fragment() {
 
         return binding.root
     }
+
 }

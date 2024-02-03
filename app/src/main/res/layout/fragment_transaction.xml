@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -17,49 +18,100 @@
         android:paddingBottom="16dp"
         tools:context=".ui.transaction.TransactionFragment">
 
-        <TextView
-            android:id="@+id/currencyNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:fontFamily="sans-serif-medium"
-            android:text="@{@string/lib_prix_transaction(transaction.currencyData.name)}"/>
-        <TextView
-            android:id="@+id/currencyPriceTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="28sp"
-            android:textColor="#000000"
-            android:fontFamily="sans-serif-medium"
-            android:text="@{@string/symb_euro(transaction.currencyData.price)}"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/titleTotalBalanceCurrencyTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:fontFamily="sans-serif-medium"
-            android:text="@{@string/lib_nb_wallet(transaction.currencyData.name,transaction.transactions.amount,transaction.transactions.value)}"/>
+        <ImageView
+            android:id="@+id/currency_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/crypto_icon_description"/>
 
-        <TextView
-            android:id="@+id/TitleTotalBalanceTransactionTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/total_balance"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/totalBalanceTransactionTextView"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/currencyNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:fontFamily="sans-serif-medium"
+                android:paddingTop="10dp"
+                android:text="@{@string/lib_prix_transaction(transaction.currencyData.name)}"/>
+            <TextView
+                android:id="@+id/currencyPriceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textColor="#000000"
+                android:fontFamily="sans-serif-medium"
+                android:paddingBottom="10dp"
+                android:text="@{@string/symb_euro(transaction.currencyData.price)}"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/wallet_icon"
+            app:srcCompat="@drawable/ic_wallet_black_24dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/crypto_icon_description"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="28sp"
-            android:textColor="#000000"
-            android:fontFamily="sans-serif-medium"
-            android:text="@{@string/symb_euro(transaction.balance)}"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleTotalBalanceCurrencyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:fontFamily="sans-serif-medium"
+                android:paddingTop="10dp"
+                android:text="@{@string/lib_nb_wallet(transaction.currencyData.name,transaction.transactions.amount,transaction.transactions.value)}"/>
+
+            <TextView
+                android:id="@+id/TitleTotalBalanceTransactionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/cash_available"/>
+
+            <TextView
+                android:id="@+id/totalBalanceTransactionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textColor="#000000"
+                android:fontFamily="sans-serif-medium"
+                android:paddingBottom="10dp"
+                android:text="@{@string/symb_euro(transaction.balance)}"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

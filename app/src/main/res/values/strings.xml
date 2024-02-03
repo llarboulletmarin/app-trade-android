@@ -25,7 +25,7 @@
     <string name="country">Country</string>
     <string name="zipCode">Zip code</string>
 
-    <string name="total_balance">Total balance</string>
+    <string name="cash_available">Cash available</string>
     <string name="money">Money</string>
     <string name="euro">Euro</string>
     <string name="wallet">Wallet</string>
@@ -36,8 +36,8 @@
     <string name="favorites">Favorites</string>
     <string name="all_crypto">All crypto</string>
     <string name="transaction">Transaction</string>
-    <string name="lib_prix_transaction">Prix de %s</string>
-    <string name="lib_nb_wallet">Balance %s : %s = $ %s</string>
+    <string name="lib_prix_transaction">Price of %s</string>
+    <string name="lib_nb_wallet">%s %s = $ %s</string>
     <string name="symb_euro">$ %s</string>
 
     <string name="buy">Buy</string>

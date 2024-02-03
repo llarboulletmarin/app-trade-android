@@ -29,8 +29,6 @@ class TransactionViewModel : ViewModel() {
 
     val balance: MutableLiveData<BigDecimal> = MutableLiveData()
 
-    val balanceCurrency: MutableLiveData<BigDecimal> = MutableLiveData()
-
     fun initUser(context: Context) {
         UserManagerService.getInstance(context).getUser()?.let {
             _user.postValue(it)
@@ -97,6 +95,7 @@ class TransactionViewModel : ViewModel() {
             ) {
                 if (response.isSuccessful) {
                     UserManagerService.getInstance(context).withdraw(BigDecimal.valueOf(amount))
+                    balance.postValue(balance.value?.minus(BigDecimal.valueOf(amount)) ?: BigDecimal.ZERO)
                     }
                 }
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
@@ -113,6 +112,7 @@ class TransactionViewModel : ViewModel() {
             ) {
                 if (response.isSuccessful) {
                     UserManagerService.getInstance(context).deposit(BigDecimal.valueOf(amount))
+                    balance.postValue(balance.value?.plus(BigDecimal.valueOf(amount)) ?: BigDecimal.ZERO)
                 }
             }
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
